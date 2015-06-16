@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ToDoTask.Context.Repository;
+using ToDoTask.Entities;
+
 
 namespace ToDoTask.Controllers
 {
@@ -10,6 +13,16 @@ namespace ToDoTask.Controllers
     {
         public ActionResult Index()
         {
+            ToDoTask.Context.Context db = new ToDoTask.Context.Context();
+            UnitOfWork uow = new UnitOfWork(db);
+            Repository<Todo> rpRepository = new Repository<Todo>(uow);
+            Todo todo = new Todo();
+            todo.Day = DateTime.Now;
+            todo.Description = "fdsvsdfv333";
+            todo.Task = "fdvsdfvdsf";
+            todo.User = new User();
+            rpRepository.Add(todo);
+            uow.SaveChanges();
             return View();
         }
 
